@@ -121,7 +121,15 @@ abstract class Enumeration (initial: Int) extends Serializable {
    * @throws   NoSuchElementException if no `Value` with a matching
    *           name is in this `Enumeration`
    */
-  final def withName(s: String): Value = values.find(_.toString == s).get
+  final def withName(s: String): Value = withNameOpt(s).get
+
+  /** Return a `Value` from this `Enumeration` whose name matches
+   *  the argument `s` or `None`.  The names are determined automatically via reflection.
+   *
+   * @param  s an `Enumeration` name
+   * @return   the `Value` of this `Enumeration` if its name matches `s` or `None`
+   */
+  final def withNameOpt(s: String): Option[Value] = values.find(_.toString == s)
 
   /** Creates a fresh value, part of this enumeration. */
   protected final def Value: Value = Value(nextId)
